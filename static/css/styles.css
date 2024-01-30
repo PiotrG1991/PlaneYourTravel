@@ -93,6 +93,9 @@
 
 body {
   margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -636,6 +639,7 @@ progress {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
   width: 100%;
+  height: auto;
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-right: auto;
@@ -10862,6 +10866,7 @@ header.masthead {
   background-repeat: no-repeat; /* Wyłączenie powtarzania obrazu */
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 header.masthead .masthead-content {
   z-index: 1;
@@ -10915,4 +10920,40 @@ header.masthead .bg-circle-4 {
   header.masthead .masthead-content .masthead-subheading {
     font-size: 4rem;
   }
+}
+input[name="username"] + span {
+    display: none;
+}
+.btn-container-new {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: fixed;
+  top: 80px;
+  left: 10px;
+}
+
+.btn-primary-new {
+  background-color: transparent; /* Przeźroczyste tło przycisku */
+  color: lightskyblue; /* Kolor tekstu */
+  border: 3px solid lightskyblue; /* Obwódka przycisku */
+  padding: 10px; /* Wewnętrzny odstęp przycisku */
+  margin-bottom: 10px; /* Odległość między przyciskami */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Animacja zmiany koloru */
+  border-radius: 10px;
+  width: 200px; /* Stała szerokość przycisku */
+  height: 40px; /* Stała wysokość przycisku */
+  display: flex; /* Ustawienie na flex container */
+  justify-content: center; /* Wyśrodkowanie tekstu wzdłuż osi X */
+  align-items: center; /* Wyśrodkowanie tekstu wzdłuż osi Y */
+}
+
+.btn-primary-new:hover {
+  background-color: #3498db; /* Zmiana koloru tła po najechaniu myszką */
+  color: #fff; /* Zmiana koloru tekstu po najechaniu myszką */
+}
+.right-content-new {
+    margin-left: auto; /* Automatyczne dostosowanie do dostępnego miejsca po lewej stronie */
+    margin-right: 10px; /* Dodatkowy odstęp od prawej krawędzi */
 }

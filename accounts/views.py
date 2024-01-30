@@ -17,7 +17,7 @@ class LoginView(View):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                next = request.GET.get('next', 'home')
+                next = request.GET.get('next', 'main')
                 return redirect(next)
         return render(request, 'add_form.html', {'form': form})
 
@@ -39,5 +39,5 @@ class RegistrationView(View):
             user.set_password(form.cleaned_data.get('password'))
             user.save()
             login(request, user)
-            return redirect('home')
+            return redirect('main')
         return render(request, 'add_form.html', {'form': form})
