@@ -7,6 +7,7 @@ class Travel(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     participants = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
 
 class Destination(models.Model):
     name = models.CharField(max_length=255)
@@ -37,4 +38,3 @@ class Activity(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     destination = models.ForeignKey(Travel, on_delete=models.CASCADE)
-
