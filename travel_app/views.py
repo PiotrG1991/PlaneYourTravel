@@ -14,12 +14,14 @@ class HomeView(View):
 
 class MainView(View):
     model = Travel
-    template_name = 'latest_travels_list.html'
+    template_name = 'travel_list.html'
     context_object_name = 'latest_travels'
     ordering = ['-created']
 
     def get(self, request):
-        return render(request, 'travel_list.html')
+        latest_travels = Travel.objects.order_by('-created')[:5]
+        context = {'latest_travels': latest_travels}
+        return render(request, self.template_name, context)
 
 
 class AddActivityView(View):
@@ -86,7 +88,7 @@ class AddTransportView(View):
             transport = form.save()
 
             # Utwórz nowy destination i przypisz go do travel
-            destination = Destination.objects.create(transport=transport, travel=travel)
+            destination, created = Destination.objects.get_or_create(travel=travel)
             destination.transport = transport
             destination.save()
             # Przekieruj na stronę destination, przekazując travel_id

@@ -1,35 +1,28 @@
 {% extends 'main.html' %}
 {% block content %}
-    {% if object_list %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Participants</th>
-                    <th>Created</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for travel in object_list %}
-                <tr>
-                    <td>{{ travel.title }}</td>
-                    <td>{{ travel.start_date }}</td>
-                    <td>{{ travel.end_date }}</td>
-                    <td>{{ travel.participants }}</td>
-                    <td>{{ travel.created }}</td>
-                    <td>
-                        <a href="{% url 'travel_detail' pk=travel.pk %}">Szczegóły</a>
-                        <a href="{% url 'travel_edit' pk=travel.pk %}">Edycja</a>
-                        <a href="{% url 'travel_delete' pk=travel.pk %}">Usuń podróż</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-{% else %}
-    <p>Brak podróży w bazie danych.</p>
-{% endif %}
+    <h2>Latest Five Travels</h2>
+  <table class="table form-label">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for travel in latest_travels %}
+        <tr>
+          <td>{{ travel.title }}</td>
+          <td>{{ travel.start_date }}</td>
+          <td>{{ travel.end_date }}</td>
+          <td class="btn-group">
+            <a  class="btn btn-success td-new" href="">Details</a>
+            <a class="btn btn-warning td-new" href="">Edit</a>
+            <a class="btn btn-danger td-new" href="">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

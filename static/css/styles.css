@@ -317,6 +317,7 @@ svg {
 table {
   caption-side: bottom;
   border-collapse: collapse;
+  width: 100%;
 }
 
 caption {
@@ -329,6 +330,7 @@ caption {
 th {
   text-align: inherit;
   text-align: -webkit-match-parent;
+  height: 40px;
 }
 
 thead,
@@ -1758,7 +1760,7 @@ progress {
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
   width: 100%;
   margin-bottom: 1rem;
-  color: var(--bs-table-color);
+  color: white;
   vertical-align: top;
   border-color: var(--bs-table-border-color);
 }
@@ -1832,7 +1834,7 @@ progress {
   --bs-table-hover-bg: #e9bfd3;
   --bs-table-hover-color: #000;
   color: var(--bs-table-color);
-  border-color: var(--bs-table-border-color);
+  border-color: white;
 }
 
 .table-secondary {
@@ -11010,4 +11012,8 @@ input[name="username"] + span {
 }
 .top {
   margin-top: 250px;
+}
+
+.td-new{
+  height: 32px;
 }
