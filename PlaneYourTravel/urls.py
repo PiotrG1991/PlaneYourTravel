@@ -24,6 +24,7 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('main/', views.MainView.as_view(), name='main'),
     path('main/travel_delete/<int:travel_id>/', views.TravelDeleteView.as_view(), name='travel_delete'),
+    path('main/all_travel_list/', views.AllTravelsView.as_view(), name='all_travel_list'),
 
     path('add_travel/', views.AddTravelView.as_view(), name='add_travel'),
     path('add_activity/', views.AddActivityView.as_view(), name='add_activity'),

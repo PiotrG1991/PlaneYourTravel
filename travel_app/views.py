@@ -221,3 +221,18 @@ class TravelDeleteView(View):
         travel = get_object_or_404(Travel, id=travel_id)
         travel.delete()
         return redirect('main')
+
+
+class AllTravelsView(View):
+    template_name = 'all_travel_list.html'
+    context_object_name = 'all_travels'
+
+    def get(self, request):
+        all_travels = Travel.objects.all()
+        context = {'all_travels': all_travels}
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        travel_id = request.POST.get('travel_id')
+        # Przekieruj do widoku obsługującego edycję, zakładając, że jest on nazwany EditTravelView
+        return redirect('edit_travel', travel_id=travel_id)
