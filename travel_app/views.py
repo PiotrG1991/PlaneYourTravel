@@ -148,7 +148,7 @@ class AddAccommodationView(View):
             destination.accommodation = accommodation
             destination.save()
 
-            return redirect('turists_places', travel_id=travel_id)
+            return redirect('add_turists_places', travel_id=travel_id)
 
         return render(request, self.template_name, {'travel': travel, 'form': form})
 

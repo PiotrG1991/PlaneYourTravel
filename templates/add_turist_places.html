@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% block content %}
-    <div class="center-element login-form">
+    <div class="center-element login-form top">
         <h2>Add Turist Places</h2>
         <form method="post" action="{% url 'add_turists_places' travel_id=travel.id %}">
             {% csrf_token %}
