@@ -1,7 +1,7 @@
 from django.views import View
 from django.shortcuts import render, redirect
 
-from travel_app.forms import TravelForm
+from travel_app.forms import TravelForm, ActivityForm
 from travel_app.models import Travel
 
 
@@ -20,6 +20,18 @@ class MainView(View):
     def get(self, request):
         return render(request, 'travel_list.html')
 
+class AddActivityView(View):
+    def get(self, request):
+        form = ActivityForm()
+        return render(request, 'add_activity.html', {'form':form})
+
+    def post(self, request):
+        form = ActivityForm(request.POST)
+        if form.is_valid():
+            activity = form.save(commit=False)
+            activity.save()
+            return redirect('add_activity')
+        return render(request, 'add_activity.html', {'form': form})
 
 class AddTravelView(View):
     template_name = 'add_travel.html'

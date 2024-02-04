@@ -1,4 +1,4 @@
-from travel_app.models import Travel
+from travel_app.models import Travel, Activity
 from django import forms
 
 class TravelForm(forms.ModelForm):
@@ -9,3 +9,8 @@ class TravelForm(forms.ModelForm):
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class ActivityForm(forms.ModelForm):
+    class Meta:
+        model = Activity
+        fields = ['name']

@@ -1,0 +1,11 @@
+{% extends 'main.html' %}
+{% block content %}
+    <div class=" center-element login-form">
+        <h2>Add Activity</h2>
+        <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Activity</button>
+        </form>
+    </div>
+{% endblock %}

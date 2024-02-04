@@ -93,6 +93,8 @@
 
 body {
   background-image: url('/static/css/background1.jpg');
+  min-height: calc(100vh - 100px);
+  margin: 50px 0;
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -10868,6 +10870,7 @@ header.masthead {
   margin: 0;
   padding: 0;
   height: 100vh;
+  min-height: min-content;
 }
 header.masthead .masthead-content {
   z-index: 1;
@@ -10955,8 +10958,8 @@ input[name="username"] + span {
   color: #fff; /* Zmiana koloru tekstu po najechaniu myszką */
 }
 .right-content-new {
-    margin-left: auto; /* Automatyczne dostosowanie do dostępnego miejsca po lewej stronie */
-    margin-right: 10px; /* Dodatkowy odstęp od prawej krawędzi */
+  margin-left: auto; /* Automatyczne dostosowanie do dostępnego miejsca po lewej stronie */
+  margin-right: 10px; /* Dodatkowy odstęp od prawej krawędzi */
 }
 
 
@@ -10969,10 +10972,13 @@ input[name="username"] + span {
     color: white;
 }
 
+
 .login-form {
+    position: fixed;
     background-color: #333;
     padding: 20px;
     border-radius: 8px;
+
 }
 
 .login-form label {

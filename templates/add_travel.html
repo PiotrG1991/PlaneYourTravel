@@ -1,8 +1,10 @@
 {% extends 'main.html' %}
 {% block content %}
-  <h2>Add New Travel</h2>
-  <form method="post">
-    {{ form.as_p }}
-    <button type="submit">Add Destination</button>
-  </form>
+    <div class="center-element login-form">
+      <h2>Add New Travel</h2>
+      <form method="post">
+      {{ form.as_p }}
+      <button type="submit">Add Destination</button>
+      </form>
+    </div>
 {% endblock %}

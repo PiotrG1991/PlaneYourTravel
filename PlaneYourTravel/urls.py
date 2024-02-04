@@ -17,15 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from travel_app import views
-from travel_app.views import AddTravelView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HomeView.as_view(), name='home'),
     path('main/', views.MainView.as_view(), name='main'),
-    path('add_travel/', AddTravelView.as_view(), name='add_travel'),
-
-
+    path('add_travel/', views.AddTravelView.as_view(), name='add_travel'),
+    path('add_activity/', views.AddActivityView.as_view(), name='add_activity'),
 
     path('accounts/', include('accounts.urls')),
 ]
