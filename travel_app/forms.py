@@ -1,4 +1,4 @@
-from travel_app.models import Travel, Activity, Transport, Destination
+from travel_app.models import Travel, Activity, Transport, Destination, Accommodation, TuristsPlaces
 from django import forms
 
 class TravelForm(forms.ModelForm):
@@ -32,4 +32,27 @@ class DestinationForm(forms.ModelForm):
     widgets = {
         'start_date': forms.DateInput(attrs={'type': 'date'}),
         'end_date': forms.DateInput(attrs={'type': 'date'}),
+    }
+
+
+class AccommodationForm(forms.ModelForm):
+    class Meta:
+        model = Accommodation
+        fields = ['name', 'description', 'address', 'price_per_night']
+
+
+class TuristsPlacesForm(forms.ModelForm):
+    class Meta:
+        model = TuristsPlaces
+        fields = ['description']
+
+
+class ActivityForm(forms.ModelForm):
+    name = forms.ModelMultipleChoiceField(queryset=Activity.objects.all(),widget=forms.CheckboxSelectMultiple,)
+    class Meta:
+        model = Activity
+        fields = ['name']
+
+    widgets = {
+        'name': forms.CheckboxSelectMultiple(),
     }

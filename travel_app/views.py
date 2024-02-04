@@ -1,8 +1,9 @@
 from django.views import View
 from django.shortcuts import render, redirect
 
-from travel_app.forms import TravelForm, ActivityForm, TransportForm, DestinationForm
-from travel_app.models import Travel, Transport, Destination
+from travel_app.forms import TravelForm, ActivityForm, TransportForm, DestinationForm, AccommodationForm, \
+    TuristsPlacesForm
+from travel_app.models import Travel, Transport, Destination, Activity
 
 
 # Create your views here.
@@ -20,10 +21,11 @@ class MainView(View):
     def get(self, request):
         return render(request, 'travel_list.html')
 
+
 class AddActivityView(View):
     def get(self, request):
         form = ActivityForm()
-        return render(request, 'add_activity.html', {'form':form})
+        return render(request, 'add_activity.html', {'form': form})
 
     def post(self, request):
         form = ActivityForm(request.POST)
@@ -32,6 +34,7 @@ class AddActivityView(View):
             activity.save()
             return redirect('add_activity')
         return render(request, 'add_activity.html', {'form': form})
+
 
 class AddTravelView(View):
     template_name = 'add_travel.html'
@@ -65,6 +68,8 @@ class AddTravelView(View):
             return redirect('add_transport', travel_id=travel.id)
 
         return render(request, self.template_name, {'form': form})
+
+
 class AddTransportView(View):
     template_name = 'add_transport.html'
 
@@ -82,7 +87,8 @@ class AddTransportView(View):
 
             # Utwórz nowy destination i przypisz go do travel
             destination = Destination.objects.create(transport=transport, travel=travel)
-
+            destination.transport = transport
+            destination.save()
             # Przekieruj na stronę destination, przekazując travel_id
             return redirect('add_destination', travel_id=travel_id)
 
@@ -115,6 +121,85 @@ class AddDestinationView(View):
             destination.save()
 
             # Przekieruj na kolejny widok lub strony
-            return redirect('next_view_or_page')
+            return redirect('add_accommodation', travel_id=travel_id)
+
+        return render(request, self.template_name, {'travel': travel, 'form': form})
+
+
+class AddAccommodationView(View):
+    template_name = 'add_accommodation.html'
+
+    def get(self, request, travel_id):
+        travel = Travel.objects.get(id=travel_id)
+        form = AccommodationForm()
+        return render(request, self.template_name, {'travel': travel, 'form': form})
+
+    def post(self, request, travel_id):
+        travel = Travel.objects.get(id=travel_id)
+        form = AccommodationForm(request.POST)
+
+        if form.is_valid():
+            accommodation = form.save()
+
+            # Pobierz lub utwórz destination dla podanego travel_id
+            destination, created = Destination.objects.get_or_create(travel=travel)
+
+            # Zaktualizuj dane destination o accommodation id
+            destination.accommodation = accommodation
+            destination.save()
+
+            return redirect('turists_places', travel_id=travel_id)
+
+        return render(request, self.template_name, {'travel': travel, 'form': form})
+
+class AddTuristPlacesView(View):
+    template_name = 'add_turist_places.html'
+
+    def get(self, request, travel_id):
+        travel = Travel.objects.get(id=travel_id)
+        form = TuristsPlacesForm()
+        return render(request, self.template_name, {'travel': travel, 'form': form})
+
+    def post(self, request, travel_id):
+        travel = Travel.objects.get(id=travel_id)
+        form = TuristsPlacesForm(request.POST)
+
+        if form.is_valid():
+            turists_places = form.save()
+
+            # Pobierz lub utwórz destination dla podanego travel_id
+            destination, created = Destination.objects.get_or_create(travel=travel)
+
+            # Zaktualizuj dane destination o turists_places id
+            destination.turists_places = turists_places
+            destination.save()
+
+            return redirect('add_activity2', travel_id=travel_id)
+
+        return render(request, self.template_name, {'travel': travel, 'form': form})
+
+
+class AddActivity2View(View):
+    template_name = 'add_activity2.html'
+
+    def get(self, request, travel_id):
+        travel = Travel.objects.get(id=travel_id)
+        form = ActivityForm()
+        return render(request, self.template_name, {'travel': travel, 'form': form})
+
+    def post(self, request, travel_id):
+        travel = Travel.objects.get(id=travel_id)
+        form = ActivityForm(request.POST)
+
+        if form.is_valid():
+            # Pobierz lub utwórz destination dla podanego travel_id
+            destination, created = Destination.objects.get_or_create(travel=travel)
+
+            # Zaktualizuj dane destination o activity id
+            selected_activities = form.cleaned_data['name']
+            destination.activity.set(selected_activities)
+            destination.save()
+
+            return redirect('main')
 
         return render(request, self.template_name, {'travel': travel, 'form': form})

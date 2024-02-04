@@ -27,7 +27,9 @@ urlpatterns = [
     path('add_activity/', views.AddActivityView.as_view(), name='add_activity'),
     path('add_travel/transport/<int:travel_id>/', views.AddTransportView.as_view(), name='add_transport'),
     path('add_travel/destination/<int:travel_id>/', views.AddDestinationView.as_view(), name='add_destination'),
-
+    path('add_travel/accommodation/<int:travel_id>/', views.AddAccommodationView.as_view(), name='add_accommodation'),
+    path('add_travel/turist_places/<int:travel_id>/', views.AddTuristPlacesView.as_view(), name='add_turists_places'),
+    path('add_travel/addactivity2/<int:travel_id>/', views.AddActivity2View.as_view(), name='add_activity2'),
 
     path('accounts/', include('accounts.urls')),
 ]

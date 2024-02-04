@@ -17,9 +17,10 @@ class Transport(models.Model):
 class Activity(models.Model):
     name = models.CharField(max_length=255)
 
-
+    def __str__(self):
+        return self.name
 class TuristsPlaces(models.Model):
-    description = models.BigAutoField
+    description = models.TextField(null=True)
 
 
 class Destination(models.Model):
@@ -30,7 +31,7 @@ class Destination(models.Model):
     transport = models.ForeignKey(Transport, on_delete=models.CASCADE, null=True)
     accommodation= models.ForeignKey(Accommodation, on_delete=models.CASCADE, null=True)
     turists_places = models.ForeignKey(TuristsPlaces, on_delete=models.CASCADE, null=True)
-    activity = models.ManyToManyField(Activity,null=True)
+    activity = models.ManyToManyField(Activity, null=True)
 
 
 class Travel(models.Model):

@@ -92,13 +92,12 @@
 }
 
 body {
+  overflow: auto;
   background-image: url('/static/css/background1.jpg');
-  min-height: calc(100vh - 100px);
   margin: 50px 0;
   margin: 0;
   padding: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100vh;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -647,6 +646,7 @@ progress {
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-right: auto;
   margin-left: auto;
+  overflow: auto;
 }
 
 @media (min-width: 576px) {
@@ -10863,14 +10863,18 @@ html {
 }
 
 header.masthead {
-  background-image: url('background1.jpg');
+
   background-size: cover; /* Dopasowanie obrazu do całego tła */
   background-position: center; /* Wyśrodkowanie obrazu */
   background-repeat: no-repeat; /* Wyłączenie powtarzania obrazu */
+  min-height: 100vh;
+  min-width: 100vw;
+  width: 100vh;
+  height: fit-content ;
   margin: 0;
   padding: 0;
-  height: 100vh;
-  min-height: min-content;
+  overflow: auto;
+
 }
 header.masthead .masthead-content {
   z-index: 1;
@@ -10974,11 +10978,10 @@ input[name="username"] + span {
 
 
 .login-form {
-    position: fixed;
+    position: absolute;
     background-color: #333;
     padding: 20px;
     border-radius: 8px;
-
 }
 
 .login-form label {
@@ -11004,4 +11007,7 @@ input[name="username"] + span {
 
 .login-form button:hover {
     background-color: #45a049;
+}
+.top {
+  margin-top: 250px;
 }
