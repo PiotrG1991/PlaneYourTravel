@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.HomeView.as_view(), name='home'),
     path('main/', views.MainView.as_view(), name='main'),
+    path('main/travel_delete/<int:travel_id>/', views.TravelDeleteView.as_view(), name='travel_delete'),
+
     path('add_travel/', views.AddTravelView.as_view(), name='add_travel'),
     path('add_activity/', views.AddActivityView.as_view(), name='add_activity'),
     path('add_travel/transport/<int:travel_id>/', views.AddTransportView.as_view(), name='add_transport'),
@@ -30,6 +32,7 @@ urlpatterns = [
     path('add_travel/accommodation/<int:travel_id>/', views.AddAccommodationView.as_view(), name='add_accommodation'),
     path('add_travel/turist_places/<int:travel_id>/', views.AddTuristPlacesView.as_view(), name='add_turists_places'),
     path('add_travel/addactivity2/<int:travel_id>/', views.AddActivity2View.as_view(), name='add_activity2'),
+
 
     path('accounts/', include('accounts.urls')),
 ]

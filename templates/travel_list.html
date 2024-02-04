@@ -17,9 +17,9 @@
           <td>{{ travel.start_date }}</td>
           <td>{{ travel.end_date }}</td>
           <td class="btn-group">
-            <a  class="btn btn-success td-new" href="">Details</a>
+            <a class="btn btn-success td-new" href="">Details</a>
             <a class="btn btn-warning td-new" href="">Edit</a>
-            <a class="btn btn-danger td-new" href="">Delete</a>
+            <a class="btn btn-danger td-new" href="{% url 'travel_delete' travel.id %}">Delete</a>
           </td>
         </tr>
       {% endfor %}

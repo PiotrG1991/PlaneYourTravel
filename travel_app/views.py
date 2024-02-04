@@ -1,5 +1,6 @@
+from django.urls import reverse_lazy
 from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from travel_app.forms import TravelForm, ActivityForm, TransportForm, DestinationForm, AccommodationForm, \
     TuristsPlacesForm
@@ -205,3 +206,18 @@ class AddActivity2View(View):
             return redirect('main')
 
         return render(request, self.template_name, {'travel': travel, 'form': form})
+
+
+class TravelDeleteView(View):
+    template_name = 'travel_delete.html'
+    model = Travel
+    success_url = reverse_lazy('travel_list')
+
+    def get(self, request, travel_id):
+        travel = get_object_or_404(Travel, id=travel_id)
+        return render(request, self.template_name, {'travel': travel})
+
+    def post(self, request, travel_id):
+        travel = get_object_or_404(Travel, id=travel_id)
+        travel.delete()
+        return redirect('main')

@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>Delete Travel</h2>
+    <p>Are you sure you want to delete "{{ travel.title }}"?</p>
+    <form method="post" action="{% url 'travel_delete' travel.id %}">
+        {% csrf_token %}
+        <button class="btn btn-danger td-new" type="submit">Delete</button>
+    </form>
+    <a class="btn btn-success td-new" href="{% url 'main' %}">Cancel</a>
+{% endblock %}
