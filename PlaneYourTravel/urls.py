@@ -25,6 +25,9 @@ urlpatterns = [
     path('main/', views.MainView.as_view(), name='main'),
     path('add_travel/', views.AddTravelView.as_view(), name='add_travel'),
     path('add_activity/', views.AddActivityView.as_view(), name='add_activity'),
+    path('add_travel/transport/<int:travel_id>/', views.AddTransportView.as_view(), name='add_transport'),
+    path('add_travel/destination/<int:travel_id>/', views.AddDestinationView.as_view(), name='add_destination'),
+
 
     path('accounts/', include('accounts.urls')),
 ]

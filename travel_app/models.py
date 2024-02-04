@@ -23,14 +23,14 @@ class TuristsPlaces(models.Model):
 
 
 class Destination(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    start_date = models.DateField()
-    end_date = models.DateField()
-    transport = models.ForeignKey(Transport, on_delete=models.CASCADE)
-    accommodation= models.ForeignKey(Accommodation, on_delete=models.CASCADE)
-    turists_places = models.ForeignKey(TuristsPlaces, on_delete=models.CASCADE)
-    activity = models.ManyToManyField(Activity)
+    name = models.CharField(max_length=255, null=True)
+    description = models.TextField(null=True)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
+    transport = models.ForeignKey(Transport, on_delete=models.CASCADE, null=True)
+    accommodation= models.ForeignKey(Accommodation, on_delete=models.CASCADE, null=True)
+    turists_places = models.ForeignKey(TuristsPlaces, on_delete=models.CASCADE, null=True)
+    activity = models.ManyToManyField(Activity,null=True)
 
 
 class Travel(models.Model):
@@ -39,4 +39,4 @@ class Travel(models.Model):
     end_date = models.DateField()
     participants = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
-    destination = models.ForeignKey(Destination, on_delete=models.CASCADE)
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, null=False)
