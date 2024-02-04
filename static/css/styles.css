@@ -92,6 +92,7 @@
 }
 
 body {
+  background-image: url('/static/css/background1.jpg');
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -10956,4 +10957,45 @@ input[name="username"] + span {
 .right-content-new {
     margin-left: auto; /* Automatyczne dostosowanie do dostępnego miejsca po lewej stronie */
     margin-right: 10px; /* Dodatkowy odstęp od prawej krawędzi */
+}
+
+
+.center-element {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+.login-form {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.login-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background-color: #45a049;
 }

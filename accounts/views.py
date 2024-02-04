@@ -4,10 +4,11 @@ from django.views import View
 
 from accounts.forms import LoginForm, RegisterForm
 
+
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
-        return render(request, 'add_form.html', {'form':form})
+        return render(request, 'login.html', {'form': form})
 
     def post(self, request):
         form = LoginForm(request.POST)
@@ -19,7 +20,8 @@ class LoginView(View):
                 login(request, user)
                 next = request.GET.get('next', 'main')
                 return redirect(next)
-        return render(request, 'add_form.html', {'form': form})
+        return render(request, 'login.html', {'form': form})
+
 
 class LogoutView(View):
 
@@ -27,10 +29,11 @@ class LogoutView(View):
         logout(request)
         return redirect('home')
 
+
 class RegistrationView(View):
     def get(self, request):
         form = RegisterForm()
-        return render(request, 'add_form.html', {'form':form})
+        return render(request, 'registration.html', {'form':form})
 
     def post(self, request):
         form = RegisterForm(request.POST)
@@ -40,4 +43,4 @@ class RegistrationView(View):
             user.save()
             login(request, user)
             return redirect('main')
-        return render(request, 'add_form.html', {'form': form})
+        return render(request, 'registration.html', {'form': form})
