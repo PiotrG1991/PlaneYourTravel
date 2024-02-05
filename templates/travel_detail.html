@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h1>{{ travel.title }}</h1>
+
+  <h2>Travel Details</h2>
+  <p>Start date: {{ travel.start_date }}</p>
+  <p>End date: {{ travel.end_date }}</p>
+  <p>Participants: {{ travel.participants }}</p>
+
+  <h2>Destination</h2>
+  <p>Name: {{ travel.destination.name }}</p>
+  <p>Description: {{ travel.destination.description }}</p>
+  <p>Start date: {{ travel.destination.start_date }}</p>
+  <p>End date: {{ travel.destination.end_date }}</p>
+
+  <h2>Transport</h2>
+  <p>Name: {{ travel.destination.transport.name }}</p>
+  <p>Description: {{ travel.destination.transport.description }}</p>
+  <p>Transport cost: {{ travel.destination.transport.transport_cost }}</p>
+
+  <h2>Accommodation</h2>
+  <p>Name: {{ travel.destination.accommodation.name }}</p>
+  <p>Description: {{ travel.destination.accommodation.description }}</p>
+  <p>Address: {{ travel.destination.accommodation.address }}</p>
+  <p>Price per night: {{ travel.destination.accommodation.price_per_night }}</p>
+
+  <h2>Turists Places</h2>
+  <p>Description: {{ travel.destination.turists_places.description }}</p>
+
+  <h2>Activities</h2>
+  <ul>
+    {% for activity in travel.destination.activity.all %}
+      <li>{{ activity.name }}</li>
+    {% endfor %}
+  </ul>
+
+  <a  class="btn btn-primary">Edit</a>
+  <a href="{% url 'travel_delete' travel.id %}" class="btn btn-danger">Delete</a>
+  <a href="{% url 'main' %}" class="btn btn-secondary">Back</a>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import DetailView
 
 from travel_app.forms import TravelForm, ActivityForm, TransportForm, DestinationForm, AccommodationForm, \
     TuristsPlacesForm, Activity2Form
@@ -236,3 +237,15 @@ class AllTravelsView(View):
         travel_id = request.POST.get('travel_id')
         # Przekieruj do widoku obsługującego edycję, zakładając, że jest on nazwany EditTravelView
         return redirect('edit_travel', travel_id=travel_id)
+
+
+class TravelDetailView(DetailView):
+    model = Travel
+    template_name = 'travel_detail.html'
+    context_object_name = 'travel'
+
+    def get(self, request, *args, **kwargs):
+        travel_id = self.kwargs.get('pk')
+        travel = Travel.objects.get(id=travel_id)
+        return render(request, self.template_name, {'travel': travel})
+
