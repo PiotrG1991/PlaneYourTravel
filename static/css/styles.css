@@ -342,10 +342,12 @@ th {
   border-color: inherit;
   border-style: solid;
   border-width: 0;
+  z-index: 0;
 }
 
 label {
   display: inline-block;
+  z-index: 0;
 }
 
 button {
@@ -1772,9 +1774,11 @@ progress {
 }
 .table > tbody {
   vertical-align: inherit;
+  z-index: 1;
 }
 .table > thead {
   vertical-align: bottom;
+  z-index: 1;
 }
 
 .table-group-divider {
@@ -1972,6 +1976,7 @@ progress {
 }
 .form-label {
   margin-bottom: 0.5rem;
+
 }
 
 .col-form-label {
@@ -2809,6 +2814,7 @@ textarea.form-control-lg {
   border-radius: var(--bs-btn-border-radius);
   background-color: var(--bs-btn-bg);
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  z-index: 5;
 }
 @media (prefers-reduced-motion: reduce) {
   .btn {
@@ -10941,6 +10947,7 @@ input[name="username"] + span {
   position: fixed;
   top: 80px;
   left: 10px;
+  z-index: 10000000;
 }
 
 .btn-primary-new {
@@ -10957,6 +10964,9 @@ input[name="username"] + span {
   display: flex; /* Ustawienie na flex container */
   justify-content: center; /* Wyśrodkowanie tekstu wzdłuż osi X */
   align-items: center; /* Wyśrodkowanie tekstu wzdłuż osi Y */
+  opacity: 1; !important;
+  z-index: 1000; !important;
+  position: static; !important;
 }
 
 .btn-primary-new:hover {
@@ -11016,4 +11026,8 @@ input[name="username"] + span {
 
 .td-new{
   height: 32px;
+}
+.btn-pg {
+
+   background-color: #3498db;
 }

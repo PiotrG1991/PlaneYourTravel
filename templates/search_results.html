@@ -1,0 +1,24 @@
+{% extends 'search.html' %}
+{% block search %}
+    <h2>Search Results</h2>
+
+  <form method="get" action="{% url 'search' %}">
+    {{ form.as_p }}
+    <button class="btn btn-success td-new" type="submit">Search</button>
+    <a class="btn btn-danger td-new" href="{% url 'main' %}">Back</a>
+  </form>
+
+  {% if travels %}
+    <ul>
+      {% for travel in travels %}
+        <li>
+          {{ travel.title }}
+          <a class="btn btn-warning td-new" href="{% url 'travel_detail' travel.id %}">Details</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No results found.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>Activity List</h2>
+    <table class="table form-label">
+    <tbody>
+      {% for activity in activities %}
+        <tr>
+          <td>{{ activity.name }}</td>
+          <td>{{ activity.description }}</td>
+          <td>
+            <form method="post" action="{% url 'activity_list' %}">
+              {% csrf_token %}
+              <input type="hidden" name="activity_id" value="{{ activity.id }}">
+              <button class="btn btn-danger td-new" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

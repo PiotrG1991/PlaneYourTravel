@@ -27,6 +27,8 @@ urlpatterns = [
     path('main/all_travel_list/', views.AllTravelsView.as_view(), name='all_travel_list'),
     path('travel/<int:pk>/', views.TravelDetailView.as_view(), name='travel_detail'),
     path('edit_travel/<int:pk>/', views.EditTravelView.as_view(), name='edit_travel'),
+    path('main/search/', views.SearchView.as_view(), name='search'),
+    path('main/activity_list/', views.ActivityListView.as_view(), name='activity_list'),
 
     path('add_travel/', views.AddTravelView.as_view(), name='add_travel'),
     path('add_activity/', views.AddActivityView.as_view(), name='add_activity'),
@@ -35,7 +37,6 @@ urlpatterns = [
     path('add_travel/accommodation/<int:travel_id>/', views.AddAccommodationView.as_view(), name='add_accommodation'),
     path('add_travel/turist_places/<int:travel_id>/', views.AddTuristPlacesView.as_view(), name='add_turists_places'),
     path('add_travel/addactivity2/<int:travel_id>/', views.AddActivity2View.as_view(), name='add_activity2'),
-
 
     path('accounts/', include('accounts.urls')),
 ]

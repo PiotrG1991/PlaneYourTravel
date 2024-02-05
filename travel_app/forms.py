@@ -55,3 +55,6 @@ class Activity2Form(forms.ModelForm):
     widgets = {
         'name': forms.CheckboxSelectMultiple(),
     }
+
+class SearchForm(forms.Form):
+    search_query = forms.CharField(max_length=100, required=False, label='Search')
