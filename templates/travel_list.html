@@ -1,28 +1,55 @@
 {% extends 'main.html' %}
 {% block content %}
-    <h2>Latest Five Trips</h2>
-        <table class="table form-label">
-            <thead>
+    <form method="get" action="{% url 'main' %}">
+        <div class="form-group">
+            <label for="search">Search:</label>
+            <input type="text"  id="search" name="q" value="{{ request.GET.q }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for travel in travels %}
                 <tr>
-                    <th>Title</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Actions</th>
+                    <td>{{ travel.title }}</td>
+                    <td>{{ travel.start_date }}</td>
+                    <td>{{ travel.end_date }}</td>
+                    <td class="btn-group">
+                        <a class="btn btn-success td-new" href="{% url 'travel_detail' travel.id %}">Details</a>
+                        <a class="btn btn-warning td-new" href="{% url 'edit_travel' travel.id %}">Edit</a>
+                        <a class="btn btn-danger td-new" href="{% url 'travel_delete' travel.id %}">Delete</a>
+                    </td>
                 </tr>
-            </thead>
-          <tbody>
-              {% for travel in latest_travels %}
-                  <tr>
-                      <td>{{ travel.title }}</td>
-                      <td>{{ travel.start_date }}</td>
-                      <td>{{ travel.end_date }}</td>
-                      <td class="btn-group">
-                      <a class="btn btn-success td-new" href="{% url 'travel_detail' travel.id %}">Details</a>
-                      <a class="btn btn-warning td-new" href="{% url 'edit_travel' travel.id %}">Edit</a>
-                      <a class="btn btn-danger td-new" href="{% url 'travel_delete' travel.id %}">Delete</a>
-                      </td>
-                  </tr>
-              {% endfor %}
-          </tbody>
+            {% endfor %}
+        </tbody>
     </table>
+
+
+    {% if travels.has_other_pages %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if travels.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ travels.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Strona {{ travels.number }} z {{ travels.paginator.num_pages }}.
+                </span>
+
+                {% if travels.has_next %}
+                    <a href="?page={{ travels.next_page_number }}">next</a>
+                    <a href="?page={{ travels.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
 {% endblock %}

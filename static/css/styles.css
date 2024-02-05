@@ -11031,3 +11031,29 @@ input[name="username"] + span {
 
    background-color: #3498db;
 }
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 100px; !important;
+}
+
+.form-control {
+    max-width: 200px;
+    margin-left: 10px;
+}
+
+.btn-primary {
+    margin-left: 5px;
+}
+
+/* Tabela */
+.table {
+    width: 100%;
+}
+
+/* Paginacja */
+.pagination {
+  margin-top: 10px;
+}

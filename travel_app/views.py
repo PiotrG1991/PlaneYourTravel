@@ -1,7 +1,8 @@
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from travel_app.forms import TravelForm, ActivityForm, TransportForm, DestinationForm, AccommodationForm, \
     TuristsPlacesForm, Activity2Form, SearchForm
@@ -13,16 +14,21 @@ class HomeView(View):
         return render(request, 'welcome.html')
 
 
-class MainView(View):
+class MainView(ListView):
     model = Travel
     template_name = 'travel_list.html'
-    context_object_name = 'latest_travels'
-    ordering = ['-created']
+    context_object_name = 'travels'
+    paginate_by = 5
 
-    def get(self, request):
-        latest_travels = Travel.objects.order_by('-created')[:5]
-        context = {'latest_travels': latest_travels}
-        return render(request, self.template_name, context)
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Travel.objects.filter(
+                Q(title__icontains=query) |
+                Q(participants__icontains=query)
+            )
+        else:
+            return Travel.objects.all()
 
 
 class AddActivityView(View):
@@ -291,22 +297,6 @@ class EditTravelView(View):
             'turists_places_form': turists_places_form,
             'travel': travel,
         }
-        return render(request, self.template_name, context)
-
-
-class SearchView(View):
-    template_name = 'search_results.html'
-
-    def get(self, request):
-        form = SearchForm(request.GET)
-        travels = []
-
-        if form.is_valid():
-            query = form.cleaned_data.get('search_query')
-            if query:
-                travels = Travel.objects.filter(title__icontains=query)
-
-        context = {'form': form, 'travels': travels}
         return render(request, self.template_name, context)
 
 

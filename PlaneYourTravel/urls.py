@@ -27,7 +27,6 @@ urlpatterns = [
     path('main/all_travel_list/', views.AllTravelsView.as_view(), name='all_travel_list'),
     path('travel/<int:pk>/', views.TravelDetailView.as_view(), name='travel_detail'),
     path('edit_travel/<int:pk>/', views.EditTravelView.as_view(), name='edit_travel'),
-    path('main/search/', views.SearchView.as_view(), name='search'),
     path('main/activity_list/', views.ActivityListView.as_view(), name='activity_list'),
 
     path('add_travel/', views.AddTravelView.as_view(), name='add_travel'),
