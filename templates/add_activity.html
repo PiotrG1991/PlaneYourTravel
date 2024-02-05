@@ -3,8 +3,8 @@
     <div class="center-element login-form top">
         <h2>Add Activity</h2>
         <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+            {% csrf_token %}
+            {{ form.as_p }}
         <button type="submit">Add Activity</button>
         </form>
         <h4>Here you can submit your favorite activities to the database</h4>

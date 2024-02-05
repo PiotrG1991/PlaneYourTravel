@@ -1,35 +1,35 @@
 {% extends 'main.html' %}
 {% block content %}
 <h2>All trips</h2>
-  <table class="table form-label">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for travel in all_travels %}
-        <tr>
-          <td>{{ travel.title }}</td>
-          <td>{{ travel.start_date }}</td>
-          <td>{{ travel.end_date }}</td>
-          <td>
-            <form method="post" >
-              {% csrf_token %}
-              <a class="btn btn-warning td-new" type="submit" href="{% url 'edit_travel' travel.id %}" >Edit</a>
-            </form>
-            <form method="post" action="{% url 'travel_delete' travel.id %}">
-              {% csrf_token %}
-              <a class="btn btn-danger td-new" href="{% url 'travel_delete' travel.id %}">Delete</a>
-              <a class="btn btn-success td-new" href="{% url 'travel_detail' travel.id %}">Details</a>
-            </form>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <a class="btn btn-success td-new" href="{% url 'main' %}">Return</a>
+    <table class="table form-label">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for travel in all_travels %}
+            <tr>
+                <td>{{ travel.title }}</td>
+                <td>{{ travel.start_date }}</td>
+                <td>{{ travel.end_date }}</td>
+                <td>
+                <form method="post" >
+                    {% csrf_token %}
+                    <a class="btn btn-warning td-new" type="submit" href="{% url 'edit_travel' travel.id %}" >Edit</a>
+                </form>
+                <form method="post" action="{% url 'travel_delete' travel.id %}">
+                    {% csrf_token %}
+                    <a class="btn btn-danger td-new" href="{% url 'travel_delete' travel.id %}">Delete</a>
+                    <a class="btn btn-success td-new" href="{% url 'travel_detail' travel.id %}">Details</a>
+                </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-success td-new" href="{% url 'main' %}">Return</a>
 {% endblock %}

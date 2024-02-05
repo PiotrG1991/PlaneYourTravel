@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views import View
-
 from accounts.forms import LoginForm, RegisterForm
 
 
@@ -33,7 +32,7 @@ class LogoutView(View):
 class RegistrationView(View):
     def get(self, request):
         form = RegisterForm()
-        return render(request, 'registration.html', {'form':form})
+        return render(request, 'registration.html', {'form': form})
 
     def post(self, request):
         form = RegisterForm(request.POST)

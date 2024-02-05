@@ -5,10 +5,9 @@ from django.views.generic import DetailView
 
 from travel_app.forms import TravelForm, ActivityForm, TransportForm, DestinationForm, AccommodationForm, \
     TuristsPlacesForm, Activity2Form, SearchForm
-from travel_app.models import Travel, Transport, Destination, Activity
+from travel_app.models import Travel, Destination, Activity
 
 
-# Create your views here.
 class HomeView(View):
     def get(self, request):
         return render(request, 'welcome.html')
@@ -49,17 +48,12 @@ class AddTravelView(View):
 
     def post(self, request):
         form = TravelForm(request.POST)
-
         if form.is_valid():
             travel = form.save(commit=False)
 
-            # Automatyczne utworzenie nowego obiektu Destination
             destination = Destination.objects.create()
-
-            # Przypisanie destination do obiektu Travel
             travel.destination = destination
 
-            # Pozostałe dane z formularza
             travel.title = form.cleaned_data['title']
             travel.start_date = form.cleaned_data['start_date']
             travel.end_date = form.cleaned_data['end_date']
@@ -67,10 +61,7 @@ class AddTravelView(View):
 
             travel.save()
 
-            # Przekieruj na kolejny etap lub na stronę podsumowania, itp.
-            # Przykład: przekieruj na stronę dodawania transportu z przekazaniem travel_id
             return redirect('add_transport', travel_id=travel.id)
-
         return render(request, self.template_name, {'form': form})
 
 
@@ -85,18 +76,16 @@ class AddTransportView(View):
     def post(self, request, travel_id):
         travel = Travel.objects.get(id=travel_id)
         form = TransportForm(request.POST)
-
         if form.is_valid():
             transport = form.save()
 
-            # Utwórz nowy destination i przypisz go do travel
             destination, created = Destination.objects.get_or_create(travel=travel)
             destination.transport = transport
             destination.save()
-            # Przekieruj na stronę destination, przekazując travel_id
-            return redirect('add_destination', travel_id=travel_id)
 
+            return redirect('add_destination', travel_id=travel_id)
         return render(request, self.template_name, {'travel': travel, 'form': form})
+
 
 class AddDestinationView(View):
     template_name = 'add_destination.html'
@@ -109,24 +98,17 @@ class AddDestinationView(View):
     def post(self, request, travel_id):
         travel = Travel.objects.get(id=travel_id)
         form = DestinationForm(request.POST)
-
         if form.is_valid():
-            # Pobierz lub utwórz destination dla podanego travel_id
             destination, created = Destination.objects.get_or_create(travel=travel)
 
-            # Zaktualizuj dane destination na podstawie formularza
             destination.name = form.cleaned_data['name']
             destination.description = form.cleaned_data['description']
             destination.start_date = form.cleaned_data['start_date']
             destination.end_date = form.cleaned_data['end_date']
-            # Dodaj inne pola destination z formularza
 
-            # Zapisz zmiany
             destination.save()
 
-            # Przekieruj na kolejny widok lub strony
             return redirect('add_accommodation', travel_id=travel_id)
-
         return render(request, self.template_name, {'travel': travel, 'form': form})
 
 
@@ -145,16 +127,13 @@ class AddAccommodationView(View):
         if form.is_valid():
             accommodation = form.save()
 
-            # Pobierz lub utwórz destination dla podanego travel_id
             destination, created = Destination.objects.get_or_create(travel=travel)
 
-            # Zaktualizuj dane destination o accommodation id
             destination.accommodation = accommodation
             destination.save()
-
             return redirect('add_turists_places', travel_id=travel_id)
-
         return render(request, self.template_name, {'travel': travel, 'form': form})
+
 
 class AddTuristPlacesView(View):
     template_name = 'add_turist_places.html'
@@ -167,19 +146,15 @@ class AddTuristPlacesView(View):
     def post(self, request, travel_id):
         travel = Travel.objects.get(id=travel_id)
         form = TuristsPlacesForm(request.POST)
-
         if form.is_valid():
             turists_places = form.save()
 
-            # Pobierz lub utwórz destination dla podanego travel_id
             destination, created = Destination.objects.get_or_create(travel=travel)
 
-            # Zaktualizuj dane destination o turists_places id
             destination.turists_places = turists_places
             destination.save()
 
             return redirect('add_activity2', travel_id=travel_id)
-
         return render(request, self.template_name, {'travel': travel, 'form': form})
 
 
@@ -196,16 +171,13 @@ class AddActivity2View(View):
         form = ActivityForm(request.POST)
 
         if form.is_valid():
-            # Pobierz lub utwórz destination dla podanego travel_id
             destination, created = Destination.objects.get_or_create(travel=travel)
 
-            # Zaktualizuj dane destination o activity id
             selected_activities = form.cleaned_data['name']
             destination.activity.set(selected_activities)
             destination.save()
 
             return redirect('main')
-
         return render(request, self.template_name, {'travel': travel, 'form': form})
 
 
@@ -235,7 +207,6 @@ class AllTravelsView(View):
 
     def post(self, request):
         travel_id = request.POST.get('travel_id')
-        # Przekieruj do widoku obsługującego edycję, zakładając, że jest on nazwany EditTravelView
         return redirect('edit_travel', travel_id=travel_id)
 
 
@@ -299,7 +270,6 @@ class EditTravelView(View):
             destination.transport = transport
             destination.save()
 
-            # Ustawienie ManyToManyField na podstawie identyfikatorów z formularza
             activity_ids = activity_form.cleaned_data['name'].values_list('id', flat=True)
             destination.activity.set(activity_ids)
             destination.save()
@@ -338,6 +308,7 @@ class SearchView(View):
 
         context = {'form': form, 'travels': travels}
         return render(request, self.template_name, context)
+
 
 class ActivityListView(View):
     template_name = 'activity_list.html'

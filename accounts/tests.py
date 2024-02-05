@@ -40,6 +40,7 @@ def test_registration_view(client, valid_registration_data):
     assert response.url == reverse('main')
     assert response.wsgi_request.user.is_authenticated
 
+
 @pytest.mark.django_db
 def test_registration_view_invalid_data(client):
     response = client.post(reverse('register_view'), data={})
