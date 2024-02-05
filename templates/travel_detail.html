@@ -34,7 +34,7 @@
     {% endfor %}
   </ul>
 
-  <a  class="btn btn-primary">Edit</a>
+  <a href="{% url 'edit_travel' travel.id %}" class="btn btn-primary" >Edit</a>
   <a href="{% url 'travel_delete' travel.id %}" class="btn btn-danger">Delete</a>
   <a href="{% url 'main' %}" class="btn btn-secondary">Back</a>
 {% endblock %}

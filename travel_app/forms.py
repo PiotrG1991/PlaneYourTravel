@@ -11,10 +11,9 @@ class TravelForm(forms.ModelForm):
         }
 
 class ActivityForm(forms.ModelForm):
-    name = forms.CharField(max_length=50)
     class Meta:
         model = Activity
-        fields = ['name']
+        fields = '__all__'
 
 
 class TransportForm(forms.ModelForm):
@@ -32,8 +31,7 @@ class DestinationForm(forms.ModelForm):
 
     widgets = {
         'start_date': forms.DateInput(attrs={'type': 'date'}),
-        'end_date': forms.DateInput(attrs={'type': 'date'}),
-    }
+        'end_date': forms.DateInput(attrs={'type': 'date'}),}
 
 
 class AccommodationForm(forms.ModelForm):

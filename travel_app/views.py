@@ -249,3 +249,76 @@ class TravelDetailView(DetailView):
         travel = Travel.objects.get(id=travel_id)
         return render(request, self.template_name, {'travel': travel})
 
+
+class EditTravelView(View):
+    template_name = 'edit_travel.html'
+
+    def get(self, request, pk):
+        travel = Travel.objects.get(pk=pk)
+        travel_form = TravelForm(instance=travel)
+        transport_form = TransportForm(instance=travel.destination.transport)
+        destination_form = DestinationForm(instance=travel.destination)
+        activity_form = Activity2Form(instance=travel.destination)
+        accommodation_form = AccommodationForm(instance=travel.destination.accommodation)
+        turists_places_form = TuristsPlacesForm(instance=travel.destination.turists_places)
+
+        context = {
+            'travel_form': travel_form,
+            'transport_form': transport_form,
+            'destination_form': destination_form,
+            'activity_form': activity_form,
+            'accommodation_form': accommodation_form,
+            'turists_places_form': turists_places_form,
+            'travel': travel,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk):
+        travel = Travel.objects.get(pk=pk)
+        travel_form = TravelForm(request.POST, instance=travel)
+        transport_form = TransportForm(request.POST, instance=travel.destination.transport)
+        destination_form = DestinationForm(request.POST, instance=travel.destination)
+        activity_form = Activity2Form(request.POST, instance=travel.destination)
+        accommodation_form = AccommodationForm(request.POST, instance=travel.destination.accommodation)
+        turists_places_form = TuristsPlacesForm(request.POST, instance=travel.destination.turists_places)
+
+        if (
+                travel_form.is_valid() and
+                transport_form.is_valid() and
+                destination_form.is_valid() and
+                activity_form.is_valid() and
+                accommodation_form.is_valid() and
+                turists_places_form.is_valid()
+        ):
+            travel_form.save()
+
+            transport = transport_form.save(commit=False)
+            transport.save()
+
+            destination = destination_form.save(commit=False)
+            destination.transport = transport
+            destination.save()
+
+            # Ustawienie ManyToManyField na podstawie identyfikatorów z formularza
+            activity_ids = activity_form.cleaned_data['name'].values_list('id', flat=True)
+            destination.activity.set(activity_ids)
+            destination.save()
+
+            accommodation = accommodation_form.save(commit=False)
+            accommodation.save()
+
+            turists_places = turists_places_form.save(commit=False)
+            turists_places.save()
+
+            return redirect('main')
+
+        context = {
+            'travel_form': travel_form,
+            'transport_form': transport_form,
+            'destination_form': destination_form,
+            'activity_form': activity_form,
+            'accommodation_form': accommodation_form,
+            'turists_places_form': turists_places_form,
+            'travel': travel,
+        }
+        return render(request, self.template_name, context)

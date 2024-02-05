@@ -19,7 +19,7 @@
           <td>
             <form method="post" >
               {% csrf_token %}
-              <button class="btn btn-warning td-new" type="submit" >Edit</button>
+              <a class="btn btn-warning td-new" type="submit" href="{% url 'edit_travel' travel.id %}" >Edit</a>
             </form>
             <form method="post" action="{% url 'travel_delete' travel.id %}">
               {% csrf_token %}
