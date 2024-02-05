@@ -31,7 +31,7 @@ class Destination(models.Model):
     transport = models.ForeignKey(Transport, on_delete=models.CASCADE, null=True)
     accommodation= models.ForeignKey(Accommodation, on_delete=models.CASCADE, null=True)
     turists_places = models.ForeignKey(TuristsPlaces, on_delete=models.CASCADE, null=True)
-    activity = models.ManyToManyField(Activity, null=True)
+    activity = models.ManyToManyField(Activity)
 
 
 class Travel(models.Model):

@@ -11,6 +11,7 @@ class TravelForm(forms.ModelForm):
         }
 
 class ActivityForm(forms.ModelForm):
+    name = forms.CharField(max_length=50)
     class Meta:
         model = Activity
         fields = ['name']
@@ -47,7 +48,7 @@ class TuristsPlacesForm(forms.ModelForm):
         fields = ['description']
 
 
-class ActivityForm(forms.ModelForm):
+class Activity2Form(forms.ModelForm):
     name = forms.ModelMultipleChoiceField(queryset=Activity.objects.all(),widget=forms.CheckboxSelectMultiple,)
     class Meta:
         model = Activity

@@ -3,7 +3,7 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 
 from travel_app.forms import TravelForm, ActivityForm, TransportForm, DestinationForm, AccommodationForm, \
-    TuristsPlacesForm
+    TuristsPlacesForm, Activity2Form
 from travel_app.models import Travel, Transport, Destination, Activity
 
 
@@ -187,7 +187,7 @@ class AddActivity2View(View):
 
     def get(self, request, travel_id):
         travel = Travel.objects.get(id=travel_id)
-        form = ActivityForm()
+        form = Activity2Form()
         return render(request, self.template_name, {'travel': travel, 'form': form})
 
     def post(self, request, travel_id):
