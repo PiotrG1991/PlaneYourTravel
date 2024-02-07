@@ -107,8 +107,8 @@ class AddDestinationView(View):
         if form.is_valid():
             destination, created = Destination.objects.get_or_create(travel=travel)
 
-            destination.name = form.cleaned_data['destination_name']
-            destination.description = form.cleaned_data['destination_description']
+            destination.destination_name = form.cleaned_data['destination_name']
+            destination.destination_description = form.cleaned_data['destination_description']
             destination.start_date = form.cleaned_data['start_date']
             destination.end_date = form.cleaned_data['end_date']
 
