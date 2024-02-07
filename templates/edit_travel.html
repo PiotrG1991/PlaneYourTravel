@@ -13,7 +13,8 @@
         <h2>Edit Turists Places</h2>
             {{ turists_places_form.as_p }}
         <h2>Edit Avtivity</h2>
-            {{ activity_form.as_p }}
+            <h5>(repeat)</h5>
+            {{ edit_activity_form.as_p }}
         <button class="btn btn-success td-new" type="submit">Save changes</button>
             <a class="btn btn-danger td-new" href="{% url 'main' %}" type="button">Cancel</a>
         </form>

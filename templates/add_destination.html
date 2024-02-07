@@ -4,11 +4,11 @@
         <h2>Add Destination</h2>
         <form method="post" action="{% url 'add_destination' travel_id=travel.id %}">
             {% csrf_token %}
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+            <label for="destination_name">Name:</label>
+            <input type="text" id="destination_name" name="destination_name" required>
 
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
+            <label for="destination_description">Description:</label>
+            <textarea id="destination_description" name="destination_description" required></textarea>
 
             <label for="start_date">Start Date:</label>
             <input type="date" id="start_date" name="start_date" required>

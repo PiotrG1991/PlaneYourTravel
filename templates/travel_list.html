@@ -7,49 +7,53 @@
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for travel in travels %}
+
+    {% if travels %}
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ travel.title }}</td>
-                    <td>{{ travel.start_date }}</td>
-                    <td>{{ travel.end_date }}</td>
-                    <td class="btn-group">
-                        <a class="btn btn-success td-new" href="{% url 'travel_detail' travel.id %}">Details</a>
-                        <a class="btn btn-warning td-new" href="{% url 'edit_travel' travel.id %}">Edit</a>
-                        <a class="btn btn-danger td-new" href="{% url 'travel_delete' travel.id %}">Delete</a>
-                    </td>
+                    <th>Title</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for travel in travels %}
+                    <tr>
+                        <td>{{ travel.title }}</td>
+                        <td>{{ travel.start_date }}</td>
+                        <td>{{ travel.end_date }}</td>
+                        <td class="btn-group">
+                            <a class="btn btn-success td-new" href="{% url 'travel_detail' travel.id %}">Details</a>
+                            <a class="btn btn-warning td-new" href="{% url 'edit_travel' travel.id %}">Edit</a>
+                            <a class="btn btn-danger td-new" href="{% url 'travel_delete' travel.id %}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
+        {% if travels.has_other_pages %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if travels.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ travels.previous_page_number }}">previous</a>
+                    {% endif %}
 
-    {% if travels.has_other_pages %}
-        <div class="pagination">
-            <span class="step-links">
-                {% if travels.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ travels.previous_page_number }}">previous</a>
-                {% endif %}
+                    <span class="current">
+                        Strona {{ travels.number }} z {{ travels.paginator.num_pages }}.
+                    </span>
 
-                <span class="current">
-                    Strona {{ travels.number }} z {{ travels.paginator.num_pages }}.
+                    {% if travels.has_next %}
+                        <a href="?page={{ travels.next_page_number }}">next</a>
+                        <a href="?page={{ travels.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
                 </span>
-
-                {% if travels.has_next %}
-                    <a href="?page={{ travels.next_page_number }}">next</a>
-                    <a href="?page={{ travels.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>No travels found.</p>
     {% endif %}
 {% endblock %}

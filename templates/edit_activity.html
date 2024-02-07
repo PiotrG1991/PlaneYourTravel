@@ -1,0 +1,8 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>Add Activity</h2>
+    <form method="post" action="{% url 'edit_travel' travel_id=travel.id %}">
+        {% csrf_token %}
+            {{ form.name }}
+    </form>
+{% endblock %}

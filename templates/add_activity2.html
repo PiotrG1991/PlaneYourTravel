@@ -4,7 +4,7 @@
         <h2>Add Activity</h2>
         <form method="post" action="{% url 'add_activity2' travel_id=travel.id %}">
             {% csrf_token %}
-            <label for="{{ form.name.id_for_label }}">Activity:</label>
+            <label>Activity:</label>
             {{ form.name }}
             <button type="submit">Add Activity</button>
         </form>

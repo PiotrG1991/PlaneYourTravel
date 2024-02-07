@@ -3,9 +3,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import DetailView, ListView
-
 from travel_app.forms import TravelForm, ActivityForm, TransportForm, DestinationForm, AccommodationForm, \
-    TuristsPlacesForm, Activity2Form, SearchForm
+    TuristsPlacesForm, Activity2Form, EditActivityForm
 from travel_app.models import Travel, Destination, Activity
 
 
@@ -26,9 +25,10 @@ class MainView(ListView):
             return Travel.objects.filter(
                 Q(title__icontains=query) |
                 Q(participants__icontains=query)
-            )
+            ).order_by('-created')
         else:
-            return Travel.objects.all()
+            latest_travels = Travel.objects.order_by('-created')[:5]
+            return latest_travels
 
 
 class AddActivityView(View):
@@ -107,8 +107,8 @@ class AddDestinationView(View):
         if form.is_valid():
             destination, created = Destination.objects.get_or_create(travel=travel)
 
-            destination.name = form.cleaned_data['name']
-            destination.description = form.cleaned_data['description']
+            destination.name = form.cleaned_data['destination_name']
+            destination.description = form.cleaned_data['destination_description']
             destination.start_date = form.cleaned_data['start_date']
             destination.end_date = form.cleaned_data['end_date']
 
@@ -174,7 +174,7 @@ class AddActivity2View(View):
 
     def post(self, request, travel_id):
         travel = Travel.objects.get(id=travel_id)
-        form = ActivityForm(request.POST)
+        form = Activity2Form(request.POST)
 
         if form.is_valid():
             destination, created = Destination.objects.get_or_create(travel=travel)
@@ -231,60 +231,67 @@ class EditTravelView(View):
     template_name = 'edit_travel.html'
 
     def get(self, request, pk):
+
         travel = Travel.objects.get(pk=pk)
         travel_form = TravelForm(instance=travel)
         transport_form = TransportForm(instance=travel.destination.transport)
         destination_form = DestinationForm(instance=travel.destination)
-        activity_form = Activity2Form(instance=travel.destination)
+        edit_activity_form = EditActivityForm()
         accommodation_form = AccommodationForm(instance=travel.destination.accommodation)
         turists_places_form = TuristsPlacesForm(instance=travel.destination.turists_places)
+
+
 
         context = {
             'travel_form': travel_form,
             'transport_form': transport_form,
             'destination_form': destination_form,
-            'activity_form': activity_form,
+            'edit_activity_form': edit_activity_form,
             'accommodation_form': accommodation_form,
             'turists_places_form': turists_places_form,
             'travel': travel,
+            'activities': Activity.objects.all(),
         }
         return render(request, self.template_name, context)
 
     def post(self, request, pk):
+
         travel = Travel.objects.get(pk=pk)
         travel_form = TravelForm(request.POST, instance=travel)
         transport_form = TransportForm(request.POST, instance=travel.destination.transport)
         destination_form = DestinationForm(request.POST, instance=travel.destination)
-        activity_form = Activity2Form(request.POST, instance=travel.destination)
         accommodation_form = AccommodationForm(request.POST, instance=travel.destination.accommodation)
         turists_places_form = TuristsPlacesForm(request.POST, instance=travel.destination.turists_places)
+        edit_activity_form = EditActivityForm(request.POST)
 
         if (
                 travel_form.is_valid() and
                 transport_form.is_valid() and
                 destination_form.is_valid() and
-                activity_form.is_valid() and
                 accommodation_form.is_valid() and
-                turists_places_form.is_valid()
+                turists_places_form.is_valid() and
+                edit_activity_form.is_valid()
         ):
             travel_form.save()
 
-            transport = transport_form.save(commit=False)
-            transport.save()
+            destination_instance = destination_form.save()
+            destination_instance.save()
 
-            destination = destination_form.save(commit=False)
-            destination.transport = transport
-            destination.save()
+            transport_instance = transport_form.save(commit=False)
+            transport_instance.save()
 
-            activity_ids = activity_form.cleaned_data['name'].values_list('id', flat=True)
-            destination.activity.set(activity_ids)
-            destination.save()
+            accommodation_instance = accommodation_form.save(commit=False)
+            accommodation_instance.save()
 
-            accommodation = accommodation_form.save(commit=False)
-            accommodation.save()
+            turists_places_instance = turists_places_form.save(commit=False)
+            turists_places_instance.save()
 
-            turists_places = turists_places_form.save(commit=False)
-            turists_places.save()
+            selected_activities = edit_activity_form.cleaned_data.get('activities')
+            destination_instance.activity.clear()
+            destination_instance.activity.set(selected_activities)
+            destination_instance.save()
+
+            travel_form.save()
 
             return redirect('main')
 
@@ -292,10 +299,11 @@ class EditTravelView(View):
             'travel_form': travel_form,
             'transport_form': transport_form,
             'destination_form': destination_form,
-            'activity_form': activity_form,
             'accommodation_form': accommodation_form,
             'turists_places_form': turists_places_form,
+            'activity2_form': edit_activity_form,
             'travel': travel,
+            'activities': Activity.objects.all(),
         }
         return render(request, self.template_name, context)
 
@@ -314,3 +322,5 @@ class ActivityListView(View):
             activity = Activity.objects.get(id=activity_id)
             activity.delete()
         return redirect('activity_list')
+
+
