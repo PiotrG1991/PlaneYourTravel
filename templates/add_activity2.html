@@ -6,7 +6,8 @@
             {% csrf_token %}
             <label>Activity:</label>
             {{ form.name }}
-            <button type="submit">Add Activity</button>
+            <button type="submit" name="finish">Finish</button>
+            <button type="submit" name="next_destination" value="{{ next_destination.id }}">Next Destination</button>
         </form>
     </div>
 {% endblock %}

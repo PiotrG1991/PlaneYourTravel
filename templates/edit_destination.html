@@ -1,0 +1,20 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>Edit Destination</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ destination_form.as_p }}
+        <h2>Edit Transport</h2>
+        {{ transport_form.as_p }}
+        <h2>Edit Accommodation</h2>
+        {{ accommodation_form.as_p }}
+        <h2>Edit Tourist Places</h2>
+        {{ turists_places_form.as_p }}
+        <h2>Edit Activities</h2>
+        {{ activity_form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <a href="{% if travel_pk %}{% url 'edit_travel' pk=travel_pk %}{% endif %}" class="btn btn-secondary">Back to Edit Travel</a>
+
+{% endblock %}

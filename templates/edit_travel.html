@@ -1,22 +1,15 @@
 {% extends 'main.html' %}
 {% block content %}
     <h2>Edit Travel</h2>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ travel_form.as_p }}
-        <h2>Edit transport</h2>
-            {{ transport_form.as_p }}
-        <h2>Edit Destination</h2>
-            {{ destination_form.as_p }}
-        <h2>Edit Accommodation</h2>
-            {{ accommodation_form.as_p }}
-        <h2>Edit Turists Places</h2>
-            {{ turists_places_form.as_p }}
-        <h2>Edit Avtivity</h2>
-            <h5>(repeat)</h5>
-            {{ edit_activity_form.as_p }}
-        <button class="btn btn-success td-new" type="submit">Save changes</button>
-            <a class="btn btn-danger td-new" href="{% url 'main' %}" type="button">Cancel</a>
-        </form>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ travel_form.as_p }}
+        <button class="btn btn-success" type="submit" formaction="">Save changes</button>
+        <a class="btn btn-danger" href="{% url 'main' %}" type="button">Back</a>
+        {% for destination in destinations %}
+            <h2>{{ destination.destination_name }}</h2>
+            <a class="btn btn-primary" href="{% url 'edit_destination' destination.id %}">Edit Destination</a>
+        {% endfor %}
+        <input type="hidden" name="travel_pk" value="{{ travel_pk }}">
+    </form>
 {% endblock %}
-

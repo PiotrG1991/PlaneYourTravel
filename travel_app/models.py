@@ -1,4 +1,7 @@
+
+
 from django.db import models
+from django.utils import timezone
 
 
 class Accommodation(models.Model):
@@ -28,8 +31,8 @@ class TuristsPlaces(models.Model):
 class Destination(models.Model):
     destination_name = models.CharField(max_length=255, null=False)
     destination_description = models.TextField(null=False)
-    start_date = models.DateField(null=False)
-    end_date = models.DateField(null=False)
+    start_date = models.DateField(default=timezone.now, null=False)
+    end_date = models.DateField(default=timezone.now, null=False)
     transport = models.ForeignKey(Transport, on_delete=models.CASCADE, null=True)
     accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, null=True)
     turists_places = models.ForeignKey(TuristsPlaces, on_delete=models.CASCADE, null=True)
@@ -37,9 +40,10 @@ class Destination(models.Model):
 
 
 class Travel(models.Model):
-    title = models.CharField(max_length=255)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    participants = models.CharField(max_length=255)
-    created = models.DateTimeField(auto_now_add=True)
-    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, null=False)
+    title = models.CharField(max_length=255, null=False)
+    start_date = models.DateField(default=timezone.now, null=False)
+    end_date = models.DateField(default=timezone.now, null=False)
+    participants = models.CharField(max_length=255, null=False)
+    created = models.DateTimeField(auto_now_add=True, null=False)
+    destination = models.ManyToManyField(Destination)
+
