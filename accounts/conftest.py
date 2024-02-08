@@ -24,3 +24,7 @@ def valid_registration_data():
         'username': 'testuser',
         'password': 'testpassword',
         're_password': 'testpassword'}
+
+@pytest.fixture
+def user():
+    return User.objects.create_user(username='testuser', password='testpassword')

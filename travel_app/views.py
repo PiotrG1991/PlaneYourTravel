@@ -152,17 +152,13 @@ class AddAccommodationView(View):
 
         if form.is_valid():
             accommodation = form.save()
-
-            # Sprawdź, czy istnieje już destynacja dla danej podróży
             destinations = Destination.objects.filter(travel=travel).order_by('-id')
 
             if destinations.exists():
                 destination = destinations.first()
             else:
-                # Jeśli nie ma jeszcze żadnej destynacji, utwórz nową
                 destination = Destination.objects.create(travel=travel)
 
-            # Dodaj zakwaterowanie do destynacji
             destination.accommodation = accommodation
             destination.save()
 
@@ -184,16 +180,12 @@ class AddTuristPlacesView(View):
         if form.is_valid():
             turists_places = form.save()
 
-            # Sprawdź, czy istnieje już destynacja dla danej podróży
             destinations = Destination.objects.filter(travel=travel).order_by('-id')
-
             if destinations.exists():
                 destination = destinations.first()
             else:
-                # Jeśli nie ma jeszcze żadnej destynacji, utwórz nową
                 destination = Destination.objects.create(travel=travel)
 
-            # Dodaj miejsca turystyczne do destynacji
             destination.turists_places = turists_places
             destination.save()
 

@@ -1,5 +1,8 @@
 import pytest
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LogoutView
+from django.http import HttpResponseRedirect
+from django.test import RequestFactory
 from django.urls import reverse
 from accounts.forms import LoginForm
 
@@ -24,7 +27,6 @@ def test_login_view_post(client, create_user, user_data):
 
 @pytest.mark.django_db
 def test_logout_view(client):
-    user = User.objects.create_user(username='testuser', password='testpassword')
     client.login(username='testuser', password='testpassword')
     response = client.get(reverse('logout_view'))
     assert response.status_code == 302
