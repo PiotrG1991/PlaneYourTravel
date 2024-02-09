@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from travel_app import views
-from travel_app.views import AddNextDestinationView
+from travel_app.views import AddNextDestinationView, AddDestinationToTravelView, DeleteDestinationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,9 +27,11 @@ urlpatterns = [
     path('main/all_travel_list/', views.AllTravelsView.as_view(), name='all_travel_list'),
     path('travel_detail/<int:pk>/', views.TravelDetailView.as_view(), name='travel_detail'),
     path('edit_travel/<int:pk>/', views.EditTravelView.as_view(), name='edit_travel'),
+    path('add_destination/<int:travel_id>/', AddDestinationToTravelView.as_view(), name='add_destination_to_travel'),
     path('edit_destination/<int:pk>/', views.EditDestinationView.as_view(), name='edit_destination'),
     path('main/activity_list/', views.ActivityListView.as_view(), name='activity_list'),
     path('add_destination/<int:travel_pk>/', AddNextDestinationView.as_view(), name='add_next_destination'),
+    path('delete_destination/<int:travel_pk>/<int:destination_pk>/', DeleteDestinationView.as_view(), name='delete_destination'),
 
     path('add_travel/', views.AddTravelView.as_view(), name='add_travel'),
     path('add_activity/', views.AddActivityView.as_view(), name='add_activity'),

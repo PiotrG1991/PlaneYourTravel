@@ -427,3 +427,77 @@ class ActivityListView(View):
             activity.delete()
         return redirect('activity_list')
 
+class AddDestinationToTravelView(View):
+    template_name = 'add_destination_to_travel.html'
+
+    def get(self, request, travel_id):
+        travel = get_object_or_404(Travel, pk=travel_id)
+        destination_form = DestinationForm()
+        transport_form = TransportForm()
+        accommodation_form = AccommodationForm()
+        turists_places_form = TuristsPlacesForm()
+        activity_form = Activity2Form()
+        return render(request, self.template_name, {
+            'travel': travel,
+            'destination_form': destination_form,
+            'transport_form': transport_form,
+            'accommodation_form': accommodation_form,
+            'turists_places_form': turists_places_form,
+            'activity_form': activity_form,
+        })
+
+    def post(self, request, travel_id):
+        travel = get_object_or_404(Travel, pk=travel_id)
+        destination_form = DestinationForm(request.POST)
+        transport_form = TransportForm(request.POST)
+        accommodation_form = AccommodationForm(request.POST)
+        turists_places_form = TuristsPlacesForm(request.POST)
+        activity_form = Activity2Form(request.POST)
+
+        if (
+            destination_form.is_valid() and
+            transport_form.is_valid() and
+            accommodation_form.is_valid() and
+            turists_places_form.is_valid() and
+            activity_form.is_valid()
+        ):
+            destination = destination_form.save(commit=False)
+            destination.travel = travel
+            destination.save()
+            transport = transport_form.save()
+            destination.transport = transport
+            destination.save()
+            accommodation = accommodation_form.save()
+            destination.accommodation = accommodation
+            destination.save()
+            turists_places = turists_places_form.save()
+            destination.turists_places = turists_places
+            destination.save()
+            selected_activities = activity_form.cleaned_data.get('name')
+            if selected_activities:
+                destination.activity.clear()
+                destination.activity.set(selected_activities)
+            travel.destination.add(destination)
+            return redirect('edit_travel', pk=travel_id)
+
+        return render(request, self.template_name, {
+            'travel': travel,
+            'destination_form': destination_form,
+            'transport_form': transport_form,
+            'accommodation_form': accommodation_form,
+            'turists_places_form': turists_places_form,
+            'activity_form': activity_form,
+        })
+
+
+class DeleteDestinationView(View):
+    def post(self, request, travel_pk, destination_pk):
+        # Pobierz podróż (travel) i destynację na podstawie przekazanych identyfikatorów
+        travel = get_object_or_404(Travel, pk=travel_pk)
+        destination = get_object_or_404(Destination, pk=destination_pk)
+
+        # Usuń destynację
+        destination.delete()
+
+        # Przekieruj użytkownika do widoku edycji podróży
+        return redirect('edit_travel', pk=travel.pk)

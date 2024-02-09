@@ -6,9 +6,14 @@
         {{ travel_form.as_p }}
         <button class="btn btn-success" type="submit" formaction="">Save changes</button>
         <a class="btn btn-danger" href="{% url 'main' %}" type="button">Back</a>
+        <a class="btn btn-primary" href="{% url 'add_destination_to_travel' travel_id=travel.pk %}" role="button">Add Destination</a>
         {% for destination in destinations %}
             <h2>{{ destination.destination_name }}</h2>
-            <a class="btn btn-primary" href="{% url 'edit_destination' destination.id %}">Edit Destination</a>
+            <a class="btn btn-primary" href="{% url 'edit_destination' pk=destination.pk %}">Edit Destination</a>
+            <form method="post" action="{% url 'delete_destination' travel_pk=travel.pk destination_pk=destination.pk %}">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">Delete Destination</button>
+            </form>
         {% endfor %}
         <input type="hidden" name="travel_pk" value="{{ travel_pk }}">
     </form>
